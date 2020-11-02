@@ -18,9 +18,9 @@ jobs:
         device:
           # Flutter only supports 64-bit simulators:
           # https://flutter.dev/docs/get-started/install/macos.
-          - "iPhone 8 (13.7)"
-          - "iPhone 11 Pro Max (13.7)"
-          - "iPad Pro (12.9-inch) (4th generation) (13.7)"
+          - "iPhone 8"
+          - "iPhone 11 Pro Max"
+          - "iPad Pro (12.9-inch) (4th generation)"
     runs-on: macOS-latest
     env:
       FLUTTER_ROOT: /tmp/flutter
@@ -28,10 +28,11 @@ jobs:
       - name: "Print a list of simulators and start one"
         run: |
           echo 'Looking for specified device in the following list:'
-          DEVICES=$(xcrun instruments -s)
+          DEVICES=$(xcrun simctl list devices available)
           echo "$DEVICES"
-          SIMULATOR_UDID=$(grep -F '${{ matrix.device }} [' <<<"${DEVICES?}" | \
-              awk -F '[][]' '{ print $2 }')
+          SIMULATOR_UDID=$(grep -F ' ${{ matrix.device }} (' \
+              <<<"${DEVICES?}" | \
+              awk -F '[()]' '{ print $(NF-3) }')
           echo '
             If the following command fails, update the matrix -> device in
             GitHub Actions workflow configuration (.yml file) to match one of

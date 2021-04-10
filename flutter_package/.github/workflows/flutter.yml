@@ -28,7 +28,17 @@ jobs:
       - run: flutter analyze
       - run: flutter test --coverage
       - uses: codecov/codecov-action@v1
-      - run: flutter packages pub publish --dry-run
+      - name: "Read pubspec.yaml"
+        id: pubspec
+        run: >
+          ruby -ryaml -e
+          '
+          print "::set-output name=publish_to::",
+          YAML.load_file("pubspec.yaml")["publish_to"]
+          '
+      - name: "Validate the package for publishing"
+        run: flutter packages pub publish --dry-run
+        if: steps.pubspec.outputs.publish_to != 'none'
 
   build:
     needs: check

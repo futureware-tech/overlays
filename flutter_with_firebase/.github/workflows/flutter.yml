@@ -171,7 +171,7 @@ jobs:
           base64 -d > "${GOOGLE_APPLICATION_CREDENTIALS?}"
 
       - if: matrix.platform == 'ios'
-        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        uses: google-github-actions/setup-gcloud@master
       - name: "Configure GCloud to fetch 'fastlane match' repo"
         if: matrix.platform == 'ios'
         run: >

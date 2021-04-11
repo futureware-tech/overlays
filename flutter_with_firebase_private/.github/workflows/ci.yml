@@ -26,26 +26,9 @@ jobs:
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     steps:
-      - name: "Print a list of simulators and start one"
-        run: |
-          echo 'Looking for specified device in the following list:'
-          DEVICES=$(xcrun simctl list devices available)
-          echo "$DEVICES"
-          SIMULATOR_UDID=$(grep -F ' ${{ matrix.device }} (' \
-              <<<"${DEVICES?}" | \
-              awk -F '[()]' '{ print $(NF-3) }')
-          echo '
-            If the following command fails, update the matrix -> device in
-            GitHub Actions workflow configuration (.yml file) to match one of
-            the existing devices listed above. This usually happens when GitHub
-            Actions OS X environment gets updated and is missing runtime
-            profile, which requires an Apple account credentials to download.
-          '
-
-          xcrun simctl shutdown "${SIMULATOR_UDID?}" || true
-          xcrun simctl erase "${SIMULATOR_UDID?}" || true
-          xcrun simctl boot "${SIMULATOR_UDID?}"
-          echo "SIMULATOR_UDID=${SIMULATOR_UDID?}" >> "${GITHUB_ENV?}"
+      - uses: futureware-tech/simulator-action@v1
+        with:
+          model: ${{ matrix.device }}
 
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
@@ -85,10 +68,6 @@ jobs:
         run: |
           bundle exec pod repo update
           flutter drive --target test_driver/main.dart
-
-      - name: "Clean up"
-        if: always()
-        run: xcrun simctl shutdown "${SIMULATOR_UDID?}" &
 
       - name: "Check that no source files were modified during build"
         run: bundle exec fastlane ensure_clean_git

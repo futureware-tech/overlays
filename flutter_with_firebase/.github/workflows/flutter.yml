@@ -68,7 +68,7 @@ jobs:
         if: runner.os == 'Windows'
         run: git add .
       - name: "Check that all files were properly formatted and generated"
-        run: bundle exec fastlane ensure_clean_git
+        run: bundle exec fastlane run ensure_git_status_clean show_diff:true
 
       - uses: actions/setup-java@v1
         if: matrix.platform == 'android'
@@ -88,7 +88,7 @@ jobs:
         working-directory: flutter/ios
         run: pod update
       - name: "Check that no source files were modified during build"
-        run: bundle exec fastlane ensure_clean_git
+        run: bundle exec fastlane run ensure_git_status_clean show_diff:true
 
       - name: "Upload application artifacts"
         uses: actions/upload-artifact@v1

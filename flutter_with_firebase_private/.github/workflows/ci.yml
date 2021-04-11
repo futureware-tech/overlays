@@ -55,7 +55,7 @@ jobs:
           bundle exec fastlane lint
 
       - name: "Check that all files were properly formatted and generated"
-        run: bundle exec fastlane ensure_clean_git
+        run: bundle exec fastlane run ensure_git_status_clean show_diff:true
 
       - name: "Run tests"
         working-directory: flutter
@@ -70,7 +70,7 @@ jobs:
           flutter drive --target test_driver/main.dart
 
       - name: "Check that no source files were modified during build"
-        run: bundle exec fastlane ensure_clean_git
+        run: bundle exec fastlane run ensure_git_status_clean show_diff:true
 
   deploy:
     if: >
@@ -160,4 +160,4 @@ jobs:
           release:$(sed -n -e 's|^refs/tags/||p' <<<$GITHUB_REF)
 
       - name: "Check that files were not changed during release builds"
-        run: bundle exec fastlane ensure_clean_git
+        run: bundle exec fastlane run ensure_git_status_clean show_diff:true

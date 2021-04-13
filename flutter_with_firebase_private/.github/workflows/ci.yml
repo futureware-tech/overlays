@@ -96,7 +96,7 @@ jobs:
           # Need history for build number etc.
           fetch-depth: 0
 
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@master
       - name: "Delete previously cached GCloud configuration"
         run: rm -rf "${HOME?}/.config/gcloud"
 

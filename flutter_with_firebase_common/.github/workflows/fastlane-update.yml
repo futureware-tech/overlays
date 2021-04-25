@@ -29,6 +29,9 @@ jobs:
       }}
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
       - uses: ruby/setup-ruby@v1
         if: ${{ !matrix.use_private_runner }}
       - name: "Install dependencies"

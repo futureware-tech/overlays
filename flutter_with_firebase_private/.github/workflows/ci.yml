@@ -8,11 +8,6 @@ on:
     tags:
       - "*.*"
 
-env:
-  # https://docs.fastlane.tools/getting-started/ios/setup/#set-up-environment-variables
-  LC_ALL: en_US.UTF-8
-  LANG: en_US.UTF-8
-
 jobs:
   build:
     runs-on: [self-hosted, macOS]

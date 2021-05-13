@@ -80,10 +80,6 @@ jobs:
       CLOUDSDK_CORE_DISABLE_PROMPTS: 1
       MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
-      FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-      FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
-      FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     steps:
       - uses: actions/checkout@v2
@@ -107,6 +103,9 @@ jobs:
           echo "ANDROID_KEYSTORE_PATH=${{ runner.temp }}/upload.keystore" >> \
             "${GITHUB_ENV?}"
 
+          echo "APP_STORE_CONNECT_API_KEY_PATH=${{ runner.temp }}/app_store_connect_api_key.json" >> \
+            "${GITHUB_ENV?}"
+
           export ANDROID_SDK_ROOT="${{ runner.tool_cache }}/Android/Sdk"
           echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT?}" >> "${GITHUB_ENV?}"
 
@@ -114,6 +113,9 @@ jobs:
         run: |
           echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DATA }}' | \
             base64 -d > "${GOOGLE_APPLICATION_CREDENTIALS?}"
+
+          echo '${{ secrets.APP_STORE_CONNECT_API_KEY_DATA }}' | \
+            base64 -d > "${APP_STORE_CONNECT_API_KEY_PATH?}"
 
           # We use gcloud to access source repository, and the environment
           # variable is also later consumed by ???.

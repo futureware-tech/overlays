@@ -29,15 +29,12 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: "1.8"
+      - uses: subosito/flutter-action@v1
       - name: "Install dependencies"
         working-directory: flutter
         run: |
           gem install bundler --no-doc
           bundle install
-          export FLUTTER_ROOT="${{ runner.tool_cache }}/flutter"
-          # Why do we need FLUTTER_ROOT?!
-          echo "FLUTTER_ROOT=${FLUTTER_ROOT?}" >> "${GITHUB_ENV?}"
-          echo "${FLUTTER_ROOT?}/bin" >> "${GITHUB_PATH?}"
           export ANDROID_SDK_ROOT="${{ runner.tool_cache }}/Android/Sdk"
           echo "ANDROID_SDK_ROOT=${ANDROID_SDK_ROOT?}" >> "${GITHUB_ENV?}"
           bundle exec fastlane install_dependencies
@@ -133,12 +130,7 @@ jobs:
             credential.https://source.developers.google.com.helper \
             gcloud.sh
 
-      - name: "Configure Flutter"
-        run: |
-          export FLUTTER_ROOT="${{ runner.tool_cache }}/flutter"
-          # Why do we need FLUTTER_ROOT?!
-          echo "FLUTTER_ROOT=${FLUTTER_ROOT?}" >> "${GITHUB_ENV?}"
-          echo "${FLUTTER_ROOT?}/bin" >> "${GITHUB_PATH?}"
+      - uses: subosito/flutter-action@v1
 
       - name: "Deploy iOS App"
         working-directory: flutter

@@ -136,7 +136,9 @@ INFO
 
     project_id = "#{product}-debug-#{_github_fork_name()}"
     sh %w(npm install)
-    Dir.chdir('functions') { sh %w(npm install) }
+    if File.directory?('functions')
+      Dir.chdir('functions') { sh %w(npm install) }
+    end
     fastlane_require 'shellwords'
     # Give Firebase login interactive mode and do not crop lines.
     exec %W(npm start -- #{project_id}).shelljoin

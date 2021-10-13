@@ -22,15 +22,6 @@ lane :update do
       # "flutter update-packages", but we don't need it.
       flutter_root = flutter_bootstrap(flutter_channel: 'stable')
 
-      # Copy over .gitignore from official templates.
-      FileUtils.cp(
-        File.join(
-          flutter_root,
-          'packages/flutter_tools/templates/app/.gitignore.tmpl',
-        ),
-        '.gitignore',
-      )
-
       Dir.chdir('fastlane') do
         # Upgrade current application packages (within pubspec.yaml spec).
         flutter(args: %w(packages upgrade))

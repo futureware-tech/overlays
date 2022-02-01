@@ -18,11 +18,11 @@ lane :update do
   update_analysis_options
   Dir.chdir('..') do
     Dir.chdir('flutter') do
-      # This will automatically upgrade flutter, if necessary. It won't run
-      # "flutter update-packages", but we don't need it.
-      flutter_root = flutter_bootstrap(flutter_channel: 'stable')
-
       Dir.chdir('fastlane') do
+        # This will automatically upgrade flutter, if necessary. It won't run
+        # "flutter update-packages", but we don't need it.
+        flutter_bootstrap(flutter_channel: 'stable')
+
         # Upgrade current application packages (within pubspec.yaml spec).
         flutter(args: %w(packages upgrade))
       end

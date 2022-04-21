@@ -244,9 +244,12 @@ platform :ios do
       config = {
         distribute_external: true,
         notify_external_testers: true,
+
         # This is supposed to be the latest build, reject builds already
         # waiting review (only applies to TestFlight reviews, not App Store!).
-        reject_build_waiting_for_review: true,
+        # ...does not work: https://github.com/fastlane/fastlane/issues/18408.
+        # reject_build_waiting_for_review: true,
+
         # Changelog is required for TestFlight.
         changelog: 'Please look for the latest changes at ' +
             "https://github.com/#{ENV['GITHUB_REPOSITORY']}/commits/master",

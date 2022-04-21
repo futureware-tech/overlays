@@ -95,7 +95,7 @@ jobs:
       - run: git fetch --tags
         working-directory: flutter/.flutter
 
-      - uses: google-github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@v0
       - name: "Delete previously cached GCloud configuration"
         run: rm -rf "${HOME?}/.config/gcloud"
 

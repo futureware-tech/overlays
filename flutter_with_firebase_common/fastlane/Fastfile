@@ -56,7 +56,13 @@ lane :update do
         FileUtils.rm_rf('node_modules')
         sh %w(npm install)
         sh %w(npm update --dev)
-        sh %w(npm audit fix)
+        # Some modules (notably, firebase-tools) keep high level vulnerabilities
+        # for months or even years. We can't afford to delay our pipeline that
+        # long.
+        begin
+          sh %w(npm audit fix --audit-level critical)
+        rescue
+        end
         # And autofix any lint errors.
         sh %w(npm run fix)
       end if File.directory?(dir)

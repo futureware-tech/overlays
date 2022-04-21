@@ -65,6 +65,10 @@ jobs:
           bundle exec fastlane run flutter \
             args:drive,--target,test_driver/main.dart
 
+      - name: "Make sure the app builds also for Android"
+        working-directory: flutter
+        run: bundle exec fastlane run flutter args:build,apk,--debug
+
       - name: "Check that no source files were modified during build"
         run: bundle exec fastlane run ensure_git_status_clean show_diff:true
 

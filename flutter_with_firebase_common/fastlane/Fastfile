@@ -54,15 +54,23 @@ lane :update do
     %w(firebase firebase/functions).each do |dir|
       Dir.chdir(dir) do
         FileUtils.rm_rf('node_modules')
-        sh %w(npm install)
+        begin
+          sh %w(npm install)
+        rescue Errno::ENOENT
+          UI.error('Node Package Manager (npm) not found; try to run "nvm use"')
+          raise
+        end
         sh %w(npm update --dev)
+
         # Some modules (notably, firebase-tools) keep high level vulnerabilities
         # for months or even years. We can't afford to delay our pipeline that
         # long.
         begin
           sh %w(npm audit fix --audit-level critical)
-        rescue
+        rescue FastlaneCore::Interface::FastlaneShellError => e
+          UI.error(e)
         end
+
         # And autofix any lint errors.
         sh %w(npm run fix)
       end if File.directory?(dir)

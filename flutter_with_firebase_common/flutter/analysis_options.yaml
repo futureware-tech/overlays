@@ -64,9 +64,6 @@ linter:
     avoid_function_literals_in_foreach_calls: false
     sort_constructors_first: false
 
-    # TODO(dotdoom): add messages to asserts.
-    prefer_asserts_with_message: false
-
     # TODO(ksheremet): Decide whether to use relative imports
     prefer_relative_imports: false
 
@@ -76,14 +73,8 @@ linter:
     # TODO(dotdoom): support key parameter in widget constructors.
     use_key_in_widget_constructors: false
 
-    # TODO(ksheremet): file issue for "flutter_gen" not being recognized.
+    # TODO(ksheremet): remove once https://github.com/dart-lang/linter/releases/tag/1.21.2 is released.
     depend_on_referenced_packages: false
-
-    # TODO(ksheremet): file issue for createState() commonly returning private.
-    library_private_types_in_public_api: false
-
-    # TODO(dotdoom): file issue for null[able].toString().
-    noop_primitive_operations: false
 
     # TODO(dotdoom): add comments / ignores everywhere it's used, then enable.
     use_build_context_synchronously: false

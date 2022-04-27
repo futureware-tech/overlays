@@ -47,6 +47,11 @@ lane :update do
         end
 
         Dir.chdir('ios') do
+          # This line specifically to avoid version manipulation like Facebook
+          # does for example:
+          # https://github.com/facebook/facebook-ios-sdk/issues/2063.
+          sh %w(bundle exec pod repo remove trunk) rescue nil
+
           sh %w(bundle exec pod update)
         end
       end

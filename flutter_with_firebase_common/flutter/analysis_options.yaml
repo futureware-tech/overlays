@@ -69,12 +69,3 @@ linter:
 
     # TODO(dotdoom): add debugFillProperties.
     diagnostic_describe_all_properties: false
-
-    # TODO(dotdoom): support key parameter in widget constructors.
-    use_key_in_widget_constructors: false
-
-    # TODO(ksheremet): remove once https://github.com/dart-lang/linter/releases/tag/1.21.2 is released.
-    depend_on_referenced_packages: false
-
-    # TODO(dotdoom): add comments / ignores everywhere it's used, then enable.
-    use_build_context_synchronously: false
